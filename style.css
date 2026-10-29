@@ -1,0 +1,32 @@
+:root {
+  color-scheme: dark;
+  background: #10151c;
+  font-family: "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  background: #10151c;
+}
+
+main {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 1rem;
+}
+
+canvas {
+  display: block;
+  width: min(100%, 480px);
+  height: auto;
+  border: 1px solid #354354;
+  background: #18212c;
+  box-shadow: 0 0 0 1px #0a0d11, 0 1rem 3rem #080b10;
+}

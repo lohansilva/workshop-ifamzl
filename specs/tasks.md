@@ -2,7 +2,7 @@
 
 > Como usar: rode `/4-implementar N` para cada tarefa, teste no navegador e faça commit.
 
-- [ ] 1. Criar o esqueleto visível do jogo
+- [x] 1. Criar o esqueleto visível do jogo
   - Criar a página com um canvas centralizado e o estilo de fundo escuro.
   - Criar `CONFIG` com as dimensões do canvas e os valores iniciais do jogador.
   - Criar o ponto de entrada com um loop `requestAnimationFrame` usando delta time.
