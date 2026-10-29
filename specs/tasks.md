@@ -20,7 +20,7 @@
   - **Como verificar:** pressionar Espaço → a tela de jogo aparece; pressionar ←, →, A e D → o dev se move; manter uma direção na borda → o dev não ultrapassa o canvas; pressionar Espaço durante o jogo → nada reinicia.
   - _Requisitos: 1.2, 1.4, 2.1, 2.2, 2.3, 2.4_
 
-- [ ] 3. Adicionar itens, colisões e dificuldade progressiva
+- [x] 3. Adicionar itens, colisões e dificuldade progressiva
   - Criar cafés e bugs em posições horizontais variadas no alto do canvas.
   - Atualizar a queda dos itens e removê-los ao chegar ao chão.
   - Detectar colisões do dev com cafés e bugs e remover os itens após a colisão.

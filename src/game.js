@@ -14,6 +14,9 @@ export function createGame(canvas, context) {
       y: getPlayerY(canvas),
     },
     pressedKeys: new Set(),
+    items: [],
+    elapsedTime: 0,
+    spawnTimer: 0,
   };
 
   function resetGame() {
@@ -21,6 +24,9 @@ export function createGame(canvas, context) {
     state.player.x = getPlayerStartX(canvas);
     state.player.y = getPlayerY(canvas);
     state.pressedKeys.clear();
+    state.items = [];
+    state.elapsedTime = 0;
+    state.spawnTimer = 0;
   }
 
   function handleKeyDown(event) {
@@ -55,6 +61,16 @@ export function createGame(canvas, context) {
     const nextX = state.player.x + direction * CONFIG.player.speed * deltaTime;
     const maximumX = canvas.width - CONFIG.player.width;
     state.player.x = Math.max(0, Math.min(nextX, maximumX));
+
+    state.elapsedTime += deltaTime;
+    state.spawnTimer += deltaTime;
+    const spawnInterval = getSpawnInterval();
+    while (state.spawnTimer >= spawnInterval) {
+      state.spawnTimer -= spawnInterval;
+      spawnItem();
+    }
+
+    updateItems(deltaTime);
   }
 
   function render() {
@@ -70,6 +86,7 @@ export function createGame(canvas, context) {
       return;
     }
 
+    drawItems();
     drawPlayer();
   }
 
@@ -102,6 +119,61 @@ export function createGame(canvas, context) {
       state.player.y + CONFIG.player.height / 2,
     );
     resetTextAlignment();
+  }
+
+  function drawItems() {
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.font = CONFIG.items.font;
+    for (const item of state.items) {
+      const emoji = item.type === "coffee"
+        ? CONFIG.visual.coffeeEmoji
+        : CONFIG.visual.bugEmoji;
+      context.fillText(
+        emoji,
+        item.x + CONFIG.items.size / 2,
+        item.y + CONFIG.items.size / 2,
+      );
+    }
+    resetTextAlignment();
+  }
+
+  function spawnItem() {
+    const maximumX = canvas.width - CONFIG.items.size;
+    const type = Math.random() < CONFIG.items.coffeeChance ? "coffee" : "bug";
+    state.items.push({ type, x: Math.random() * maximumX, y: 0 });
+  }
+
+  function updateItems(deltaTime) {
+    const fallSpeed = getFallSpeed();
+    state.items = state.items.filter((item) => {
+      item.y += fallSpeed * deltaTime;
+      if (item.y > canvas.height) {
+        return false;
+      }
+      if (isColliding(item)) {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  function isColliding(item) {
+    return item.x < state.player.x + CONFIG.player.width
+      && item.x + CONFIG.items.size > state.player.x
+      && item.y < state.player.y + CONFIG.player.height
+      && item.y + CONFIG.items.size > state.player.y;
+  }
+
+  function getFallSpeed() {
+    return CONFIG.items.initialFallSpeed
+      + state.elapsedTime * CONFIG.items.speedIncreasePerSecond;
+  }
+
+  function getSpawnInterval() {
+    const reducedInterval = CONFIG.items.initialSpawnInterval
+      - state.elapsedTime * CONFIG.items.spawnIntervalDecreasePerSecond;
+    return Math.max(CONFIG.items.minimumSpawnInterval, reducedInterval);
   }
 
   function resetTextAlignment() {

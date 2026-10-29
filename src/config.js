@@ -11,6 +11,16 @@ export const CONFIG = {
     emoji: "🧑‍💻",
     font: "42px sans-serif",
   },
+  items: {
+    size: 32,
+    initialFallSpeed: 120,
+    speedIncreasePerSecond: 4,
+    initialSpawnInterval: 1.2,
+    spawnIntervalDecreasePerSecond: 0.01,
+    minimumSpawnInterval: 0.35,
+    coffeeChance: 0.65,
+    font: "30px sans-serif",
+  },
   visual: {
     backgroundColor: "#18212c",
     primaryColor: "#e8edf2",
@@ -22,5 +32,7 @@ export const CONFIG = {
     instruction: "Pressione Espaço para começar",
     gameOverTitle: "Fim de jogo",
     gameOverInstruction: "Pressione Espaço para jogar de novo",
+    coffeeEmoji: "☕",
+    bugEmoji: "🐛",
   },
 };
