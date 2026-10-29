@@ -29,7 +29,7 @@
   - **Como verificar:** iniciar uma partida → cafés e bugs aparecem e caem; deixar um item passar → ele desaparece sem alterar o estado; encostar em um café ou bug → o item desaparece; aguardar a partida → os itens passam a cair mais rápido e surgir com maior frequência.
   - _Requisitos: 3.1, 3.2, 3.3, 3.4, 4.1, 4.2_
 
-- [ ] 4. Implementar pontuação, vidas e recorde
+- [x] 4. Implementar pontuação, vidas e recorde
   - Exibir pontuação e vidas durante a partida, começando com 3 vidas e 0 pontos.
   - Atualizar a pontuação ao coletar cafés e reduzir vidas ao encostar em bugs.
   - Mudar para a tela de fim de jogo quando as vidas chegarem a zero.
@@ -38,7 +38,7 @@
   - **Como verificar:** coletar um café → a pontuação aumenta 1; encostar em um bug → as vidas diminuem 1; perder as 3 vidas → a tela de fim mostra pontuação e recorde; recarregar a página depois de uma pontuação maior → o recorde continua salvo.
   - _Requisitos: 1.3, 3.2, 3.3, 5.1, 5.2, 5.3, 5.4, 6.1, 6.2, 6.3_
 
-- [ ] 5. Polir a apresentação e conferir todos os critérios
+- [x] 5. Polir a apresentação e conferir todos os critérios
   - Ajustar cores, tamanhos, emojis, textos em português e centralização para a tela definida no design.
   - Conferir caminhos relativos, ausência de números ajustáveis fora de `CONFIG` e funcionamento sem dependências externas.
   - Jogar uma partida completa, testar início, controles, colisões, dificuldade, fim de jogo e persistência do recorde.

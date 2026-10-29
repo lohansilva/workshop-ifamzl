@@ -1,4 +1,5 @@
 import { CONFIG } from "./config.js";
+import { loadHighScore, saveHighScore } from "./storage.js";
 
 const SCREEN = {
   START: "start",
@@ -17,6 +18,9 @@ export function createGame(canvas, context) {
     items: [],
     elapsedTime: 0,
     spawnTimer: 0,
+    score: 0,
+    lives: CONFIG.game.initialLives,
+    highScore: loadHighScore(),
   };
 
   function resetGame() {
@@ -27,6 +31,8 @@ export function createGame(canvas, context) {
     state.items = [];
     state.elapsedTime = 0;
     state.spawnTimer = 0;
+    state.score = 0;
+    state.lives = CONFIG.game.initialLives;
   }
 
   function handleKeyDown(event) {
@@ -82,12 +88,13 @@ export function createGame(canvas, context) {
     }
 
     if (state.screen === SCREEN.GAME_OVER) {
-      drawMessage(CONFIG.visual.gameOverTitle, CONFIG.visual.gameOverInstruction);
+      drawGameOver();
       return;
     }
 
     drawItems();
     drawPlayer();
+    drawHud();
   }
 
   return { handleKeyDown, handleKeyUp, render, resetGame, update };
@@ -102,10 +109,18 @@ export function createGame(canvas, context) {
     context.textBaseline = "middle";
     context.fillStyle = CONFIG.visual.primaryColor;
     context.font = CONFIG.visual.titleFont;
-    context.fillText(title, canvas.width / 2, canvas.height / 2 - 32);
+    context.fillText(
+      title,
+      canvas.width / 2,
+      canvas.height / 2 + CONFIG.visual.titleOffset,
+    );
     context.fillStyle = CONFIG.visual.accentColor;
     context.font = CONFIG.visual.instructionFont;
-    context.fillText(instruction, canvas.width / 2, canvas.height / 2 + 28);
+    context.fillText(
+      instruction,
+      canvas.width / 2,
+      canvas.height / 2 + CONFIG.visual.instructionOffset,
+    );
     resetTextAlignment();
   }
 
@@ -152,6 +167,7 @@ export function createGame(canvas, context) {
         return false;
       }
       if (isColliding(item)) {
+        applyItemEffect(item);
         return false;
       }
       return true;
@@ -163,6 +179,77 @@ export function createGame(canvas, context) {
       && item.x + CONFIG.items.size > state.player.x
       && item.y < state.player.y + CONFIG.player.height
       && item.y + CONFIG.items.size > state.player.y;
+  }
+
+  function applyItemEffect(item) {
+    if (item.type === "coffee") {
+      state.score += 1;
+      return;
+    }
+
+    state.lives -= 1;
+    if (state.lives <= 0) {
+      finishGame();
+    }
+  }
+
+  function finishGame() {
+    state.screen = SCREEN.GAME_OVER;
+    state.pressedKeys.clear();
+    if (state.score > state.highScore) {
+      state.highScore = state.score;
+      saveHighScore(state.highScore);
+    }
+  }
+
+  function drawHud() {
+    context.fillStyle = CONFIG.visual.primaryColor;
+    context.font = CONFIG.visual.hudFont;
+    context.textAlign = "start";
+    context.textBaseline = "top";
+    context.fillText(
+      `${CONFIG.visual.scoreLabel}: ${state.score}`,
+      CONFIG.visual.hudPadding,
+      CONFIG.visual.hudPadding,
+    );
+    context.textAlign = "end";
+    context.fillText(
+      `${CONFIG.visual.livesLabel}: ${state.lives}`,
+      canvas.width - CONFIG.visual.hudPadding,
+      CONFIG.visual.hudPadding,
+    );
+    resetTextAlignment();
+  }
+
+  function drawGameOver() {
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillStyle = CONFIG.visual.primaryColor;
+    context.font = CONFIG.visual.titleFont;
+    context.fillText(
+      CONFIG.visual.gameOverTitle,
+      canvas.width / 2,
+      canvas.height / 2 + CONFIG.visual.gameOverTitleOffset,
+    );
+    context.font = CONFIG.visual.gameOverFont;
+    context.fillText(
+      `${CONFIG.visual.finalScoreLabel}: ${state.score}`,
+      canvas.width / 2,
+      canvas.height / 2 + CONFIG.visual.finalScoreOffset,
+    );
+    context.fillText(
+      `${CONFIG.visual.highScoreLabel}: ${state.highScore}`,
+      canvas.width / 2,
+      canvas.height / 2 + CONFIG.visual.highScoreOffset,
+    );
+    context.fillStyle = CONFIG.visual.accentColor;
+    context.font = CONFIG.visual.instructionFont;
+    context.fillText(
+      CONFIG.visual.gameOverInstruction,
+      canvas.width / 2,
+      canvas.height / 2 + CONFIG.visual.gameOverInstructionOffset,
+    );
+    resetTextAlignment();
   }
 
   function getFallSpeed() {

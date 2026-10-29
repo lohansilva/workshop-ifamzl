@@ -1,6 +1,6 @@
 :root {
   color-scheme: dark;
-  background: #10151c;
+  background: var(--page-background);
   font-family: "Courier New", monospace;
 }
 
@@ -12,7 +12,7 @@ body {
   min-width: 100%;
   min-height: 100vh;
   margin: 0;
-  background: #10151c;
+  background: var(--page-background);
 }
 
 main {
@@ -24,9 +24,10 @@ main {
 
 canvas {
   display: block;
-  width: min(100%, 480px);
+  width: auto;
+  max-width: 100%;
   height: auto;
-  border: 1px solid #354354;
-  background: #18212c;
-  box-shadow: 0 0 0 1px #0a0d11, 0 1rem 3rem #080b10;
+  border: 1px solid var(--canvas-border);
+  background: var(--canvas-background);
+  box-shadow: 0 1rem 3rem var(--canvas-shadow);
 }
