@@ -11,7 +11,7 @@
   - **Como verificar:** abrir o jogo no navegador → o canvas fica centralizado e mostra o nome "Chuva de Bugs" e a instrução para pressionar Espaço.
   - _Requisitos: 1.1_
 
-- [ ] 2. Implementar o fluxo e o controle do dev
+- [x] 2. Implementar o fluxo e o controle do dev
   - Criar o estado de início, jogo e fim de jogo no motor da partida.
   - Fazer Espaço iniciar e reiniciar a partida, com o dev começando na parte inferior.
   - Implementar movimento pelas setas e pelas teclas A/D somente durante a partida.

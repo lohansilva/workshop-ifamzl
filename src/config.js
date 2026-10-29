@@ -3,6 +3,14 @@ export const CONFIG = {
     width: 480,
     height: 640,
   },
+  player: {
+    width: 48,
+    height: 48,
+    speed: 300,
+    bottomPadding: 24,
+    emoji: "🧑‍💻",
+    font: "42px sans-serif",
+  },
   visual: {
     backgroundColor: "#18212c",
     primaryColor: "#e8edf2",
@@ -12,5 +20,7 @@ export const CONFIG = {
     instructionFont: "18px Courier New",
     title: "Chuva de Bugs",
     instruction: "Pressione Espaço para começar",
+    gameOverTitle: "Fim de jogo",
+    gameOverInstruction: "Pressione Espaço para jogar de novo",
   },
 };
